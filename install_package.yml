@@ -1,0 +1,35 @@
+# Install package using dnf module
+
+# install tree package
+---
+- name: install tree package 
+  hosts: localhost
+  tasks:
+  - name: install tree
+    ansible.builtin.dnf:
+      name: tree
+      state: present
+
+
+# install nginx package
+- name: install and start nginx
+  hosts: localhost
+  become: yes   # sudo privileges
+  tasks:
+  - name: install nginx
+    ansible.builtin.dnf:
+      name: nginx
+      state: present
+
+  # start and enable nginx service
+  - name: start & enable nginx
+    ansible.builtin.service:
+      name: nginx
+      state: started
+      enabled: true
+
+  # deploy a sample index.html file
+  - name: deploy index.html
+    ansible.builtin.copy:
+      dest: /usr/share/nginx/html/index.html
+      content: "<h1>Welcome to Nginx Server managed by Ansible</h1>"

@@ -1,0 +1,74 @@
+# variable in ansible playbook
+# Variable => assign value dynamically and use it later
+---
+- name: install lemp stack using variable
+  hosts: localhost
+  become: yes   # sudo privileges
+
+  # define variable & assign value
+  vars:
+    httpd_pkg: httpd
+    web_pkg: nginx 
+    db_pkg: mariadb105-server
+    php_pkg:
+      - php
+      - php-fpm
+
+    # service names 
+    httpd_service: httpd
+    web_service: nginx
+    db_service: mariadb
+    php_service: php-fpm
+    web_file_path: /usr/share/nginx/html/index.html
+
+  tasks: 
+  - name: install httpd
+    ansible.builtin.dnf:
+      name: "{{httpd_pkg}}"
+      state: present
+
+  - name: install nginx
+    ansible.builtin.dnf:
+      name: "{{ web_pkg}}"
+      state: absent
+
+  - name : install mariadb
+    ansible.builtin.dnf:
+      name: "{{ db_pkg}}"
+      state: present
+  
+  - name: install php
+    ansible.builtin.dnf:
+      name: "{{php_pkg}}"
+      state: present
+
+      # start & enable service 
+
+  - name: start & enable httpd
+    ansible.builtin.systemd_service:
+      name: "{{httpd_service}}"
+      state: present
+      enabled: started
+
+  - name: start & enable nginx
+    ansible.builtin.systemd_service:
+      name: "{{web_service}}"
+      state: stopped
+      enabled: false
+  
+  - name: start & enable mariadb
+    ansible.builtin.systemd_service:
+      name: "{{db_service}}"
+      state: started
+      enabled: true
+    
+  - name: start & enable php-fpm
+    ansible.builtin.systemd_service:
+      name: "{{php_service}}"
+      state: started
+      enabled: true
+
+  - name: deploy index.html package
+    ansible.builtin.copy:
+      dest: "{{web_file_path}}"
+      content: "<h1>SATISH PATHADE - Welcome to LEMP Stack managed by Ansible</h1>"

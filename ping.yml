@@ -1,0 +1,7 @@
+# check
+---
+- name: check ping connectivity
+  hosts: localhost
+  tasks:
+    - name: ping test
+      ansible.builtin.ping:

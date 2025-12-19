@@ -1,0 +1,22 @@
+# create a folder and a file using ansible 
+
+# create a file /root/ansible.txt
+---
+- name: create a file using ansible
+  hosts: localhost
+  tasks:
+  - name: create a file
+    ansible.builtin.file:
+      path: /root/ansible.txt
+      state: touch
+
+# create a folder /home/ec2-user/aws
+
+- name: create a folder /home/ec2-user/aws
+  hosts: localhost
+  tasks:
+  - name: create directory aws
+    ansible.builtin.file:
+      path: /home/ec2-user/aws
+      state: directory
+      mode: '0700'
