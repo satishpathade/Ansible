@@ -1,6 +1,4 @@
-# Ansible Task Collection — focused playbooks (local & EC2)
-
-# Ansible Task Collection
+# Ansible Task Collection - (local & EC2)
 
 A collection of small, focused Ansible playbooks for learning and practicing core automation tasks on localhost and EC2 instances.
 
@@ -24,7 +22,7 @@ Each playbook performs a single task, making it easy to understand and modify. A
 - [lemp_with_var.yml](lemp_with_var.yml) — installs LEMP components using variables defined in the p
 
 ## How to run (local, no inventory)
--------------------------------
+
 Run playbooks directly on the control machine (no inventory file) as `root`:
 
 ```bash
